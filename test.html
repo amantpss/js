@@ -13,6 +13,7 @@
     <div class="resultParas">
         <p class="guesses"></p>
         <p class="lastResult"></p>
+        <p class="rightResult"></p>
         <p class="lowOrHi"></p>
     </div>
 
@@ -26,6 +27,7 @@
         let lowOrHi = document.querySelector('.lowOrHi');
         let guessField = document.querySelector('.guessField');
         let guessSubmit = document.querySelector('.guessSubmit');
+        let rightResult = document.querySelector('.rightResult');
         let guessCount = 1;
 
         guessSubmit.addEventListener('click',resultSubmit);
@@ -40,10 +42,12 @@
             if(userGuess === randomNumber){
                 lastResult.textContent = 'Correct Guess';
                 lastResult.style.backgroundColor = 'Green';
+                rightResult.textContent = 
                 GameOver();
             }else if(guessCount === 10){
                 lastResult.textContent = 'You Lost';
                 lastResult.style.backgroundColor = 'Red';
+                rightResult.textContent = `Right Number is ${randomNumber}` ;
                 GameOver();
             }else{
                 lastResult.textContent = 'Incorrect Guess';
