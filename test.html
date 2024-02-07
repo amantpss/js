@@ -7,12 +7,83 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>test</h1>
-    <h1>test1</h1>
-    <h1>test1</h1>
-    <h1>test1</h1>
-    <h1>test1</h1>
-    <h1>test1</h1>
-    <h1>test1</h1>
+    <label for="guessField">Enter a guess: </label>
+    <input type="number" id="guessField" class="guessField" />
+    <input type="submit" value="Submit guess" class="guessSubmit" />   
+    <div class="resultParas">
+        <p class="guesses"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+    </div>
+
+
+
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100);
+        let guesses = document.querySelector('.guesses');
+        let lastResult = document.querySelector('.lastResult');
+        let lowOrHi = document.querySelector('.lowOrHi');
+        let guessField = document.querySelector('.guessField');
+        let guessSubmit = document.querySelector('.guessSubmit');
+        let guessCount = 1;
+
+        guessSubmit.addEventListener('click',resultSubmit);
+
+        function resultSubmit(){
+            userGuess = Number(guessField.value);
+            if(guessCount === 1){
+                guesses.textContent = 'previous Guesses:';
+            }
+            guesses.textContent = `${guesses.textContent} ${userGuess}`;
+            
+            if(userGuess === randomNumber){
+                lastResult.textContent = 'Correct Guess';
+                lastResult.style.backgroundColor = 'Green';
+                GameOver();
+            }else if(guessCount === 10){
+                lastResult.textContent = 'You Lost';
+                lastResult.style.backgroundColor = 'Red';
+                GameOver();
+            }else{
+                lastResult.textContent = 'Incorrect Guess';
+                lastResult.style.backgroundColor = 'Red';
+                if(userGuess < randomNumber){
+                    lowOrHi.textContent = 'Your Guess is too low';
+                }else if(userGuess > randomNumber){
+                    lowOrHi.textContent = 'Your Guess is too High';
+                }
+            }
+
+            guessCount++;
+            guessField.value = "";
+            guessField.focus();
+        }
+
+        function GameOver(){
+            guessField.disabled;
+            guessSubmit.disabled;
+            let resetButton = document.createElement('button');
+            resetButton.textContent = 'Restart the Game';
+            resetButton.setAttribute('class','reset');
+            document.body.append(resetButton);
+            resetButton.addEventListener('click',RestartGame);
+        }
+
+        function RestartGame(){
+            guessCount = 1;
+            let resetPars = document.querySelectorAll('.resultParas p');
+            for (const resetPar of resetPars){
+                resetPar.textContent = "";
+            }
+            document.querySelector('.reset').remove();
+            guessField.disabled;
+            guessSubmit.disabled;
+            guessField.focus();
+            randomNumber = Math.floor(Math.random() * 100);
+        }
+
+
+    </script>
 </body>
 </html>
